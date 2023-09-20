@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    <form method="GET" action="{% url 'search_models' %}">
+        <input type="text" name="query" placeholder="Enter a name">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+        <h2>Results for "{{ query }}"</h2>
+        <ul>
+            {% for result in results %}
+                <li><a href="{% url 'student' result.id %}">{{ result.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Search</title>
+</head>
+<body>
+    <h1>Student Search</h1>
+    <form method="GET" action="{% url 'studentsearch' %}">
+        <input type="text" name="search" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    <div id="results">
+        <!-- Results will be displayed here -->
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("form").submit(function (event) {
+            event.preventDefault();
+            var searchQuery = $("input[name='search']").val();
+            $.ajax({
+                url: "{% url 'studentsearch' %}",
+                data: { search: searchQuery },
+                success: function (data) {
+                    // Clear previous results
+                    $("#results").empty();
+                    if (data.length > 0) {
+                        // Display results
+                        $.each(data, function (index, student) {
+                            $("#results").append("<p>Name: " + student.name + "</p>");
+                            // Add more fields as needed
+                        });
+                    } else {
+                        // No results found
+                        $("#results").append("<p>No results found.</p>");
+                    }
+                },
+                error: function () {
+                    // Handle error if needed
+                },
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
